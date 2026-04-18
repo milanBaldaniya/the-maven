@@ -32,7 +32,7 @@ const Header: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/homepage" className="flex items-center gap-3 group">
+          <Link href="/home" className="flex items-center gap-3 group">
             <AppLogo size={36} />
             <span className="font-display text-xl font-medium tracking-tight text-foreground-DEFAULT hidden sm:block">
               The Maven

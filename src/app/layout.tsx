@@ -8,27 +8,29 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  ),
   title: 'The Maven — Luxury Beauty Services at Your Doorstep',
-  description: 'The Maven brings certified hair, skin, makeup, and bridal beauty services to your home. Professional salon experience, delivered doorstep in your city.',
+  description:
+    'The Maven brings certified hair, skin, makeup, and bridal beauty services to your home. Professional salon experience, delivered doorstep in your city.',
+
+  // ✅ Favicon + icons
   icons: {
     icon: [
-      { url: '/favicon.ico', type: 'image/x-icon' }
+      { url: '/favicon.ico' },
     ],
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}
-
-        <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fthemaven1066back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
-        <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" /></body>
+      <body>{children}</body>
     </html>
   );
 }
