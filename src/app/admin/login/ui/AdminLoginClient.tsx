@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import AppField from '@/components/ui/AppField';
 
 const schema = yup.object({
+  email: yup.string().trim().email('Enter a valid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
 
@@ -26,7 +27,7 @@ export default function AdminLoginClient({ nextPath }: { nextPath: string }) {
         </div>
 
         <Formik
-          initialValues={{ password: '' }}
+          initialValues={{ email: '', password: '' }}
           validationSchema={schema}
           onSubmit={async (values, { setSubmitting }) => {
             setServerError('');
@@ -59,6 +60,18 @@ export default function AdminLoginClient({ nextPath }: { nextPath: string }) {
                   {serverError}
                 </div>
               ) : null}
+
+              <AppField label="Email" required error={touched.email ? (errors.email as string) : undefined}>
+                <input
+                  type="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="admin@themaven.in"
+                  className="form-input w-full px-4 py-3 rounded-2xl text-sm"
+                />
+              </AppField>
 
               <AppField label="Password" required error={touched.password ? (errors.password as string) : undefined}>
                 <input
