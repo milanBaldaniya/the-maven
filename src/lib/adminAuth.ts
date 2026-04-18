@@ -9,23 +9,17 @@ function getSecret(): Uint8Array {
 }
 
 export async function createAdminSession(): Promise<string> {
-  return await new SignJWT({ role: 'admin' })
+  const jwt = await new SignJWT({ role: 'admin' })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('7d')
     .sign(getSecret());
+  return jwt;
 }
 
-export async function requireAdminFromCookies(): Promise<boolean> {
-  try {
-    const cookieStore = await cookies(); // ✅ correct
-    const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
-
-    if (!token) return false;
-
-    await jwtVerify(token, getSecret());
-    return true;
-  } catch {
-    return false;
-  }
+export async function requireAdminFromCookies(): Promise<void> {
+  const token = (await cookies()).get(ADMIN_COOKIE_NAME)?.value;
+  if (!token) throw new Error('Unauthorized');
+  await jwtVerify(token, getSecret());
 }
+

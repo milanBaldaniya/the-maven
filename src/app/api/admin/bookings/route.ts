@@ -6,6 +6,11 @@ import { BookingModel } from '@/models/Booking';
 export async function GET(req: Request) {
   try {
     await requireAdminFromCookies();
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
     const url = new URL(req.url);
     const city = url.searchParams.get('city') || undefined;
     const service = url.searchParams.get('service') || undefined;
@@ -39,8 +44,11 @@ export async function GET(req: Request) {
     }));
 
     return NextResponse.json({ ok: true, bookings });
-  } catch {
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+  } catch (err: any) {
+    return NextResponse.json(
+      { ok: false, error: err?.message || 'Failed to fetch bookings' },
+      { status: 500 }
+    );
   }
 }
 
