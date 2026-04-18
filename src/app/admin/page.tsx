@@ -5,19 +5,26 @@ import { connectMongo } from '@/lib/mongodb';
 import { BookingModel } from '@/models/Booking';
 import AdminBookingsClient from './ui/AdminBookingsClient';
 
+export const runtime = 'nodejs';
+
 export default async function AdminDashboardPage() {
-  // Middleware already guards this, but we enforce server-side too.
-  try {
-    await requireAdminFromCookies();
-  } catch {
+  const isAdmin = await requireAdminFromCookies();
+
+  if (!isAdmin) {
     redirect('/admin/login');
   }
 
   await connectMongo();
-  const docs = await BookingModel.find({}).sort({ createdAt: -1 }).lean();
+
+  const docs = await BookingModel.find({})
+    .sort({ createdAt: -1 })
+    .lean();
+
   const bookings = docs.map((d: any) => ({
     id: String(d._id),
-    createdAt: new Date(d.createdAt).toISOString(),
+    createdAt: d.createdAt
+      ? new Date(d.createdAt).toISOString()
+      : null,
     status: d.status,
     name: d.name,
     email: d.email,
@@ -25,7 +32,9 @@ export default async function AdminDashboardPage() {
     address: d.address,
     city: d.city,
     services: d.services,
-    preferredDateTime: new Date(d.preferredDateTime).toISOString(),
+    preferredDateTime: d.preferredDateTime
+      ? new Date(d.preferredDateTime).toISOString()
+      : null,
     notes: d.notes || '',
   }));
 
@@ -35,10 +44,16 @@ export default async function AdminDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-8">
           <div>
             <div className="eyebrow mb-4">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">Admin</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">
+                Admin
+              </span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-medium text-foreground">Bookings</h1>
-            <p className="text-sm text-foreground-muted mt-2">Review and filter incoming requests.</p>
+            <h1 className="font-display text-3xl sm:text-4xl font-medium text-foreground">
+              Bookings
+            </h1>
+            <p className="text-sm text-foreground-muted mt-2">
+              Review and filter incoming requests.
+            </p>
           </div>
           <AdminBookingsClient initialBookings={bookings} />
         </div>
@@ -46,4 +61,3 @@ export default async function AdminDashboardPage() {
     </main>
   );
 }
-
