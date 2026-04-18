@@ -68,7 +68,7 @@ export default function AdminLoginClient({ nextPath }: { nextPath: string }) {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="admin@themaven.in"
+                  placeholder="Enter email"
                   className="form-input w-full px-4 py-3 rounded-2xl text-sm"
                 />
               </AppField>
@@ -80,7 +80,7 @@ export default function AdminLoginClient({ nextPath }: { nextPath: string }) {
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Enter admin password"
+                  placeholder="Enter password"
                   className="form-input w-full px-4 py-3 rounded-2xl text-sm"
                 />
               </AppField>
