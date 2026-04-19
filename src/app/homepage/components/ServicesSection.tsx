@@ -143,12 +143,12 @@ const ServicesSection: React.FC = () => {
                 {/* Bottom */}
                 <div>
                   <h3 className="font-display text-2xl lg:text-3xl font-medium text-foreground-DEFAULT mb-2">{service.title}</h3>
-                  <p className="text-sm text-foreground-muted leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-w-sm">
+                  <p className="text-sm text-foreground-muted leading-relaxed mb-4 opacity-100 transition-opacity duration-500 max-w-sm lg:opacity-0 lg:group-hover:opacity-100">
                     {service.description}
                   </p>
 
-                  {/* Features on hover */}
-                  <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-3 group-hover:translate-y-0">
+                  {/* Features: visible by default (touch); hover reveal on lg+ */}
+                  <div className="flex flex-wrap gap-2 opacity-100 translate-y-0 transition-all duration-500 lg:opacity-0 lg:translate-y-3 lg:group-hover:opacity-100 lg:group-hover:translate-y-0">
                     {service.features.slice(0, 3).map((f) =>
                   <span key={f} className="text-[10px] text-foreground-muted border border-[rgba(212,175,55,0.2)] px-2.5 py-1 rounded-full">
                         {f}
@@ -156,7 +156,7 @@ const ServicesSection: React.FC = () => {
                   )}
                   </div>
 
-                  <div className="mt-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="mt-4 flex items-center gap-2 opacity-100 transition-opacity duration-500 lg:opacity-0 lg:group-hover:opacity-100">
                     <a href='#booking'><span className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-DEFAULT inline-flex items-center gap-2">Book Now</span></a>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2.5">
                       <path d="M7 17l9.2-9.2M17 17V7H7" />

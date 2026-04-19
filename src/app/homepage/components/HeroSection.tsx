@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import AppImage from '@/components/ui/AppImage';
+import { GUJARAT_CITIES } from '@/data/gujaratCities';
 
 const HeroSection: React.FC = () => {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -109,7 +110,11 @@ const HeroSection: React.FC = () => {
             {[
             { value: '500+', label: 'Happy Clients', sub: 'Served at home' },
             { value: '4.9★', label: 'Average Rating', sub: 'Across all services' },
-            { value: '2 Cities', label: 'Service Areas', sub: 'Surat · Ahmedabad' }].
+            {
+              value: `${GUJARAT_CITIES.length}+`,
+              label: 'Cities & Towns',
+              sub: 'All cities across Gujarat',
+            }].
             map((stat, i) =>
             <div
               key={stat.value}

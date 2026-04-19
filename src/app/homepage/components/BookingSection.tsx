@@ -4,11 +4,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import AppField from '@/components/ui/AppField';
-import AppSelect from '@/components/ui/AppSelect';
 import AppMultiSelect from '@/components/ui/AppMultiSelect';
+import { GUJARAT_CITIES } from '@/data/gujaratCities';
 
 const services = ['Hair Services', 'Skin Care / Facial', 'Makeup', 'Bridal Package', 'Pre-Bridal Package', 'Full Beauty Package'];
-const cities = ['Surat', 'Ahmedabad'];
 
 const bookingSchema = yup.object({
   name: yup.string().trim().min(2, 'Please enter your full name').required('Name is required'),
@@ -50,7 +49,6 @@ const BookingSection: React.FC = () => {
   }, []);
 
   const serviceOptions = useMemo(() => services.map((s) => ({ value: s, label: s })), []);
-  const cityOptions = useMemo(() => cities.map((c) => ({ value: c, label: c })), []);
 
   const openDateTimePicker = () => {
     const el = dateTimeInputRef.current;
@@ -111,8 +109,8 @@ const BookingSection: React.FC = () => {
             {/* Service areas */}
             <div className="mt-10 pt-8 border-t border-[rgba(212,175,55,0.12)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground-muted mb-4">Service Areas</p>
-              <div className="flex flex-wrap gap-3">
-                {cities.map((city) => (
+              <div className="flex flex-wrap gap-3 max-h-56 overflow-y-auto pr-1 [scrollbar-gutter:stable]">
+                {GUJARAT_CITIES.map((city) => (
                   <span key={city} className="px-4 py-2 rounded-full border border-[rgba(212,175,55,0.25)] text-sm text-gold font-medium">
                     {city}
                   </span>
@@ -244,12 +242,15 @@ const BookingSection: React.FC = () => {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <AppField label="City" required error={touched.city ? (errors.city as string) : undefined}>
-                          <AppSelect
+                          <input
+                            type="text"
                             name="city"
                             value={values.city}
-                            onChange={(v) => setFieldValue('city', v)}
-                            placeholder="Select city"
-                            options={cityOptions}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Your city or town"
+                            autoComplete="address-level2"
+                            className="form-input w-full px-4 py-3 rounded-2xl text-sm"
                           />
                         </AppField>
 
